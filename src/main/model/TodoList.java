@@ -1,5 +1,7 @@
 package model;
 
+import com.sun.xml.internal.xsom.impl.scd.Axis;
+
 import java.util.ArrayList;
 
 
@@ -22,9 +24,13 @@ public class TodoList {
      * else, adds the given task into the TaskList and returns true
      */
     public Boolean addTask(Task task) {
-        if (!(this.containsTask(task)) || !(this.getSize() < MAX_SIZE)) {
-            todoList.add(task);
-            return true;
+        if (!(this.containsTask(task))) {
+
+            if (this.getSize() < MAX_SIZE) {
+                todoList.add(task);
+                return true;
+            }
+            return false;
         }
 
         return false;

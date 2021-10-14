@@ -50,6 +50,24 @@ class TodoListTest {
     }
 
     @Test
+    void testAddTooMany() {
+        for (int i = 1; i <= MAX_SIZE; i++) {
+            Task task = new Task("hello", i);
+            todoList.addTask(task);
+        }
+
+        assertEquals(MAX_SIZE, todoList.getSize());
+        assertFalse(todoList.isEmpty());
+
+        Task task2 = new Task("hello", MAX_SIZE + 1);
+
+        assertFalse(todoList.addTask(task2));
+        assertEquals(MAX_SIZE, todoList.getSize());
+
+
+    }
+
+    @Test
     void testRemoveAll() {
         Task task1 = new Task("hello", 1);
         Task task2 = new Task("hi", 2);

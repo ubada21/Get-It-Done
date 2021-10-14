@@ -15,14 +15,28 @@ public class TaskTest {
 
     @Test
     void testComplete() {
-        assertFalse(task.isComplete);
+        assertFalse(task.isComplete());
+        assertEquals("Incomplete", task.getStatus());
         task.complete();
-        assertTrue(task.isComplete);
+        assertTrue(task.isComplete());
+        assertEquals("Complete", task.getStatus());
+
+
+
+
     }
 
     @Test
     void testGetID() {
         assertEquals(1, task.getID());
     }
+
+    @Test
+    void testGetLabel() {
+        task = new Task("hello", 1);
+
+        assertEquals("hello", task.getLabel());
+    }
+
 
 }

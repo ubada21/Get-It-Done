@@ -1,6 +1,5 @@
 package model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -109,7 +108,7 @@ public class TodoList {
         ArrayList listOfTasks = new ArrayList();
 
         for (Task task : todoList) {
-            if (task.isComplete) {
+            if (task.completionStatus) {
                 listOfTasks.add(task);
             }
         }
@@ -121,7 +120,7 @@ public class TodoList {
         ArrayList listOfTasks = new ArrayList();
 
         for (Task task : todoList) {
-            if (!task.isComplete) {
+            if (!task.completionStatus) {
                 listOfTasks.add(task);
             }
         }

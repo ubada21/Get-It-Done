@@ -3,7 +3,7 @@ package model;
 // represents a task with a label, status (complete or not), and an ID number.
 public class Task {
 
-    protected boolean isComplete;
+    protected boolean completionStatus;
     protected int id;
     private String label;
 
@@ -13,7 +13,7 @@ public class Task {
      */
     public Task(String label, int id) {
         this.label = label;
-        isComplete = false;
+        completionStatus = false;
         this.id = id;
     }
 
@@ -22,7 +22,7 @@ public class Task {
      * EFFECTS: sets Task completion status to true.
      */
     public void complete() {
-        isComplete = true;
+        completionStatus = true;
     }
 
     /*
@@ -36,7 +36,7 @@ public class Task {
      * EFFECTS: returns completion status of Task.
      */
     public Boolean isComplete() {
-        return isComplete;
+        return completionStatus;
     }
 
     public String getLabel() {

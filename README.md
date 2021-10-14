@@ -20,4 +20,3 @@ This project is important to me because I am not great at managing my time. I wa
 - As a user, I want to be able to mark a task as completed.
 - As a user, I want to be able to remove a task form the todo list.
 - As a user, I want to be able to see the number of finished and finished tasks
-- As a user, I want to be able to see a list of finished and unfinished tasks

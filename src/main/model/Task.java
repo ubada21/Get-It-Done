@@ -39,6 +39,18 @@ public class Task {
         return isComplete;
     }
 
+    public String getLabel() {
+        return this.label;
+    }
+
+    public String getStatus() {
+        if (this.isComplete()) {
+            return "Complete";
+        }
+
+        return "Incomplete";
+    }
+
 
 
 

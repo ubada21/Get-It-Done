@@ -1,11 +1,15 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+
+// todo: Implement getCompletedTasks, getUnCompleteTasks, getAllTasks.
 
 // represents a To-do list with a max size of 20
 public class TodoList {
     public static final int MAX_SIZE = 20;
-    protected final ArrayList<Task> todoList;
+    public final ArrayList<Task> todoList;
 
     // Initializes an empty TaskList.
     public TodoList() {
@@ -13,13 +17,13 @@ public class TodoList {
     }
 
     /*
-     * REQUIRES: task with ID number is not already in the todoList.
+     * REQUIRES:
      * MODIFIES: this
-     * EFFECTS: is task with given id already exists in todoList, return false
+     * EFFECTS: is task with given id already exists in todoList or toodoList size == MAXSIZE, return false
      * else, adds the given task into the TaskList and returns true
      */
     public Boolean addTask(Task task) {
-        if (!this.containsTask(task)) {
+        if (!(this.containsTask(task)) || !(this.getSize() < MAX_SIZE)) {
             todoList.add(task);
             return true;
         }
@@ -28,7 +32,7 @@ public class TodoList {
     }
 
     /*
-     *
+     * REQUIRES: Task with given ID exists in TodoList
      * MODIFIES: this
      * EFFECTS: Removes the given task from todoList
      */
@@ -45,31 +49,17 @@ public class TodoList {
     }
 
     /*
-     * EFFECTS: return all current Tasks in todoList
+     * EFFECTS: return number of incomplete Tasks in todoList
      */
-    public int getUnCompletedTasks() {
-        int numberUnCompleted = 0;
-        for (Task task : todoList) {
-
-            if (!task.isComplete) {
-                numberUnCompleted++;
-            }
-        }
-        return numberUnCompleted;
+    public int getNumberOfInCompleteTasks() {
+        return this.getIncompleteTasks().size();
     }
 
     /*
-     * EFFECTS: return all completed Tasks in todoList
+     * EFFECTS: return number of completed Tasks in todoList
      */
-    public int getCompletedTasks() {
-        int numberCompleted = 0;
-        for (Task task : todoList) {
-
-            if (task.isComplete) {
-                numberCompleted++;
-            }
-        }
-        return numberCompleted;
+    public int getNumberOfCompletedTasks() {
+        return this.getCompletedTasks().size();
     }
 
     /*
@@ -79,6 +69,11 @@ public class TodoList {
         return todoList.isEmpty();
     }
 
+    /*
+     * REQUIRES: The task being marked as complete is in the TodoList
+     * MODIFIES: this
+     * EFFECTS: marks the task as complete
+     */
     public void completeTask(int id) {
         for (Task task : todoList) {
             if (task.getID() == id) {
@@ -98,4 +93,41 @@ public class TodoList {
         }
         return false;
     }
+
+    // EFFECTS: returns a list of all current tasks
+    public ArrayList<Task> getAllTasks() {
+        ArrayList listOfTasks = new ArrayList();
+
+        for (Task task : todoList) {
+            listOfTasks.add(task);
+        }
+        return listOfTasks;
+    }
+
+    // EFFECTS: returns a list of all current  completed tasks
+    public ArrayList<Task> getCompletedTasks() {
+        ArrayList listOfTasks = new ArrayList();
+
+        for (Task task : todoList) {
+            if (task.isComplete) {
+                listOfTasks.add(task);
+            }
+        }
+        return listOfTasks;
+    }
+
+    // EFFECTS: returns a list of all current incomplete tasks
+    public ArrayList<Task> getIncompleteTasks() {
+        ArrayList listOfTasks = new ArrayList();
+
+        for (Task task : todoList) {
+            if (!task.isComplete) {
+                listOfTasks.add(task);
+            }
+        }
+        return listOfTasks;
+    }
 }
+
+
+

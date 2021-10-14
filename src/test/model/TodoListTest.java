@@ -23,6 +23,7 @@ class TodoListTest {
         todoList.addTask(task);
 
         assertEquals(1, todoList.getSize());
+        assertEquals(1, todoList.getAllTasks().size());
     }
 
     @Test
@@ -78,6 +79,7 @@ class TodoListTest {
         }
 
         assertEquals(MAX_SIZE/2, todoList.getSize());
+        assertEquals(MAX_SIZE/2, todoList.getAllTasks().size());
     }
 
     @Test
@@ -86,8 +88,10 @@ class TodoListTest {
             Task task = new Task("hello", i);
             todoList.addTask(task);
         }
-        assertEquals(0, todoList.getCompletedTasks());
-        assertEquals(MAX_SIZE, todoList.getUnCompletedTasks());
+        assertEquals(0, todoList.getNumberOfCompletedTasks());
+        assertEquals(MAX_SIZE, todoList.getNumberOfInCompleteTasks());
+
+        assertEquals(MAX_SIZE, todoList.getAllTasks().size());
     }
 
     @Test
@@ -101,8 +105,8 @@ class TodoListTest {
             todoList.completeTask(t.getID());
         }
 
-        assertEquals(MAX_SIZE, todoList.getCompletedTasks());
-        assertEquals(0, todoList.getUnCompletedTasks());
+        assertEquals(MAX_SIZE, todoList.getNumberOfCompletedTasks());
+        assertEquals(0, todoList.getNumberOfInCompleteTasks());
 
     }
 
@@ -123,11 +127,10 @@ class TodoListTest {
             todoList.addTask(task);
         }
 
-        assertEquals(MAX_SIZE/2, todoList.getCompletedTasks());
-        assertEquals(MAX_SIZE/2, todoList.getUnCompletedTasks());
+        assertEquals(MAX_SIZE/2, todoList.getNumberOfCompletedTasks());
+        assertEquals(MAX_SIZE/2, todoList.getNumberOfInCompleteTasks());
 
     }
-
 
 
 }

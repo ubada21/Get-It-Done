@@ -112,6 +112,22 @@ class TodoListTest {
         assertEquals(MAX_SIZE, todoList.getAllTasks().size());
     }
 
+//    @Test
+//    void completeOne() {
+//        Task task = new Task("Hello", 1);
+//        todoList.addTask(task);
+//
+//        assertFalse(task.isComplete());
+//        assertEquals("Incomplete", task.getStatus());
+//
+//        todoList.completeTask(1);
+//
+//        assertTrue(task.isComplete());
+//        assertEquals("Complete", task.getStatus());
+//
+//        assertEquals("Hello", task.getLabel());
+//    }
+
     @Test
     void testCompletedMany() {
         for (int i = 1; i <= MAX_SIZE; i++) {

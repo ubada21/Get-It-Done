@@ -15,11 +15,12 @@ public class TodoListApp {
         runTodoList();
     }
 
+    // based on runTeller method from AccountNotRobust
     // MODIFIES: this
     // EFFECTS: processes user input
     private void runTodoList() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         init();
 
@@ -38,14 +39,16 @@ public class TodoListApp {
         System.out.println("\nGoodBye");
     }
 
+    // based on init method from AccountNotRobust
     // MODIFIES: this
-    // EFFEVTS: initializes new Todo list.
+    // EFFECTS: initializes new Todo list.
     private void init() {
         todoList = new TodoList();
         input = new Scanner(System.in);
         input.useDelimiter(System.lineSeparator());
     }
 
+    // processCommand method based on processMethod from AccountNotRobust
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
@@ -70,6 +73,7 @@ public class TodoListApp {
         }
     }
 
+    // displayMenu method based on displayMenu from AccountNotRobust
     // EFFECTS: displays menu to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
@@ -86,9 +90,7 @@ public class TodoListApp {
 
     // EFFECTS: shows all tasks to user
     private void showAllTasks() {
-//        for (Task task : todoList.todoList) {
-//            System.out.println(task.getID() + ": " + task.getLabel() + "(" + task.getStatus() + ")");
-//        }
+
         for (Task task : todoList.getAllTasks()) {
             System.out.println(task.getID() + ": " + task.getLabel() + " (" + task.getStatus() + ")");
         }

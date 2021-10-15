@@ -73,7 +73,7 @@ public class TodoList {
     }
 
     /*
-     * REQUIRES: The task being marked as complete is in the TodoList
+     * REQUIRES: The task being marked as complete is in the TodoList and it is not already completed
      * MODIFIES: this
      * EFFECTS: marks the task as complete
      */
@@ -99,17 +99,14 @@ public class TodoList {
 
     // EFFECTS: returns a list of all current tasks
     public ArrayList<Task> getAllTasks() {
-        ArrayList listOfTasks = new ArrayList();
 
-        for (Task task : todoList) {
-            listOfTasks.add(task);
-        }
-        return listOfTasks;
+        return todoList;
     }
 
     // EFFECTS: returns a list of all current  completed tasks
     public ArrayList<Task> getCompletedTasks() {
-        ArrayList listOfTasks = new ArrayList();
+
+        ArrayList<Task> listOfTasks = new ArrayList<>();
 
         for (Task task : todoList) {
             if (task.completionStatus) {
@@ -121,7 +118,8 @@ public class TodoList {
 
     // EFFECTS: returns a list of all current incomplete tasks
     public ArrayList<Task> getIncompleteTasks() {
-        ArrayList listOfTasks = new ArrayList();
+
+        ArrayList<Task> listOfTasks = new ArrayList<>();
 
         for (Task task : todoList) {
             if (!task.completionStatus) {

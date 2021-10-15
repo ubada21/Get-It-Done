@@ -20,10 +20,6 @@ public class TaskTest {
         task.complete();
         assertTrue(task.isComplete());
         assertEquals("Complete", task.getStatus());
-
-
-
-
     }
 
     @Test

@@ -5,11 +5,11 @@ public class Task {
 
     protected boolean completionStatus;
     protected int id;
-    private String label;
+    private final String label;
 
     /*
-     * REQUIRES: label must have length > 0
-     * EFFECTS: initializes a task with a label, completion status is False by default.
+     * REQUIRES: label must be string with length > 0
+     * EFFECTS: initializes a task with a label, and ID. completion status is False by default.
      */
     public Task(String label, int id) {
         this.label = label;
@@ -39,10 +39,16 @@ public class Task {
         return completionStatus;
     }
 
+    /*
+     * EFFECTS: returns label for task.
+     */
     public String getLabel() {
         return this.label;
     }
 
+    /*
+     * EFFECTS: returns "Complete" is task is complete, else returns "Incomplete".
+     */
     public String getStatus() {
         if (this.isComplete()) {
             return "Complete";

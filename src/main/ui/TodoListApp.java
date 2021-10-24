@@ -2,16 +2,27 @@ package ui;
 
 import model.Task;
 import model.TodoList;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 // To-do List application
 public class TodoListApp {
+    private static final String JSON_STORE = "./data/todolist.json";
     private TodoList todoList;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the to-do list application
-    public TodoListApp() {
+    public TodoListApp() throws FileNotFoundException {
+        input = new Scanner(System.in);
+        todoList = new TodoList();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runTodoList();
     }
 
@@ -68,8 +79,34 @@ public class TodoListApp {
             showCompletedTasks();
         } else if (command.equals("sic")) {
             showInCompleteTasks();
+        } else if (command.equals("save")) {
+            saveTodolist();
+        } else if (command.equals("load")) {
+            loadTodolist();
         } else {
             System.out.println("Selection not valid...");
+        }
+    }
+
+    // EFFECTS: saves TodoList to file.
+    private void saveTodolist() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(todoList);
+            jsonWriter.close();
+            System.out.println("Saved TodoList to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file " + JSON_STORE);
+        }
+    }
+
+    // EFFECTS: loads TodoList from file.
+    private void loadTodolist() {
+        try {
+            todoList = jsonReader.read();
+            System.out.println("Loaded Todolist from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 
@@ -85,6 +122,8 @@ public class TodoListApp {
         System.out.println("\ts -> show all tasks");
         System.out.println("\tsc -> show completed tasks");
         System.out.println("\tsic -> show incomplete tasks");
+        System.out.println("\tsave -> save todo list");
+        System.out.println("\tload -> load todo list");
         System.out.println("\tq -> quit");
     }
 

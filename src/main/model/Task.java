@@ -1,7 +1,12 @@
 package model;
 
+
+
+import org.json.JSONObject;
+import persistence.Writable;
+
 // represents a task with a label, status (complete or not), and an ID number.
-public class Task {
+public class Task implements Writable {
 
     protected boolean completionStatus;
     protected int id;
@@ -14,6 +19,16 @@ public class Task {
     public Task(String label, int id) {
         this.label = label;
         completionStatus = false;
+        this.id = id;
+    }
+
+    /*
+     * REQUIRES: label must have length > 0
+     * EFFECTS: initializes a task with a label, ID and Completion Status. used with JsonReader
+     */
+    public Task(String label, int id, Boolean status) {
+        this.label = label;
+        this.completionStatus = status;
         this.id = id;
     }
 
@@ -57,10 +72,13 @@ public class Task {
         return "Incomplete";
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", String.valueOf(id));
+        jsonObject.put("label", label);
+        jsonObject.put("completionStatus", String.valueOf(completionStatus));
 
-
-
-
-
-
+        return jsonObject;
+    }
 }

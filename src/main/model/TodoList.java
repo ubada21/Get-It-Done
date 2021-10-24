@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 
-// todo: Implement getCompletedTasks, getUnCompleteTasks, getAllTasks.
+//
 
 // represents a To-do list with a max size of 20
-public class TodoList {
+public class TodoList implements Writable {
     public static final int MAX_SIZE = 20;
     public final ArrayList<Task> todoList;
 
@@ -128,6 +132,25 @@ public class TodoList {
         }
         return listOfTasks;
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("tasks", tasksToJson());
+        return json;
+    }
+
+    // EFFECTS: returns tasks in TodoList as JSON Array.
+    private JSONArray tasksToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Task t: todoList) {
+            jsonArray.put(t.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }
 
 

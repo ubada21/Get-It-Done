@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonReaderTest {
     TodoList td;
+    //JsonReader reader;
 
     @Test
     void testReaderNonExistentFile() {

@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 
 // represents a reader that reads TodoList from JSON data stored in file
+// Based on JsonReader class from jsonDemo
 public class JsonReader {
     private String source;
 
@@ -24,6 +25,7 @@ public class JsonReader {
 
     // EFFECTS: reads TodoList from file and returns it
     // throws IOException if an error occurs reading the file
+    // based on read() method from jsonDemo
     public TodoList read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -31,6 +33,7 @@ public class JsonReader {
     }
 
     // EFFECTS: reads source file and returns it as a string
+    // based on readFile() method from jsonDemo
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
@@ -41,6 +44,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses the TodoList from JSONObject and returns it
+    // based on parseWorkroom() method from jsonDemo
     private TodoList parseTodoList(JSONObject jsonObject) {
         TodoList td = new TodoList();
         addTasks(td, jsonObject);
@@ -49,6 +53,7 @@ public class JsonReader {
 
     // MODIFIES: td
     // EFFECTS: parses things from JSONObject and adds them to TodoList
+    // based on addThingies() method from jsonDemo
     private void addTasks(TodoList td, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("tasks");
         for (Object json: jsonArray) {
@@ -59,6 +64,7 @@ public class JsonReader {
 
     // MODIFIES: td
     // EFFECTS: parses tasks from JSONObject and adds them to TodoList
+    // based on addThingy() method from jsonDemo
     private void addTask(TodoList td, JSONObject jsonObject) {
         int id = Integer.parseInt(jsonObject.getString("id"));
         String label = jsonObject.getString("label");

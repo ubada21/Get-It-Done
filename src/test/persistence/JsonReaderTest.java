@@ -7,6 +7,9 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+// Tests based on JsonWriterTest from JsonDemo
+// Tests for testing JsonReader
 public class JsonReaderTest {
     TodoList td;
     //JsonReader reader;

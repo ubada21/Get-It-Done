@@ -141,6 +141,7 @@ public class TodoList implements Writable {
     }
 
     // EFFECTS: returns tasks in TodoList as JSON Array.
+    // Based on thingiesToJson from jsonDemo
     private JSONArray tasksToJson() {
         JSONArray jsonArray = new JSONArray();
 

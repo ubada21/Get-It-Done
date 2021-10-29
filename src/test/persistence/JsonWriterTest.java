@@ -10,6 +10,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+// Tests based on JsonWriterTest form jsonDemo
+// Tests to test JsonWriterClass
 public class JsonWriterTest {
 
     private TodoList td;

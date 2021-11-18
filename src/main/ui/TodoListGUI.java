@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
-// TODO: start at splash screen, change view when clicking either button at top.
+// TODO: make popup for IOExceptions, sound and image when completing task.
 public class TodoListGUI  extends JPanel {
 
 
@@ -34,29 +34,16 @@ public class TodoListGUI  extends JPanel {
     private JMenuItem saveButton;
     private JMenuItem loadButton;
     private JTextField textField;
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
     private TodoList todoList;
 
-
-
-
-
     public TodoListGUI() {
-
 
         JFrame frame = new JFrame("GET-IT-DONE");
         frame.setSize(575, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel bottomPanel = new JPanel();
 
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menuFile = new JMenu("FILE");
-        menuBar.add(menuFile);
-        saveButton = new JMenuItem("Save");
-        loadButton = new JMenuItem("Load");
-        menuFile.add(saveButton);
-        menuFile.add(loadButton);
+        JMenuBar menuBar = getJMenuBar();
 
         JLabel label = new JLabel("Task:");
         String[] columnNames = {"Task", "Status"};
@@ -66,9 +53,63 @@ public class TodoListGUI  extends JPanel {
         table = new JTable();
         table.setModel(model);
 
+        AddListener addListener = initButtons();
 
+        initTextField(addListener);
 
+        addToBottomPanel(bottomPanel, label);
 
+        JPanel topPanel = new JPanel();
+
+        JButton completedTasksButton = new JButton("Completed Tasks");
+        JButton incompleteTasksButton = new JButton("Incomplete Tasks");
+
+        addToTopPanel(topPanel, completedTasksButton, incompleteTasksButton);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        addToContentPane(frame, bottomPanel, menuBar, scrollPane);
+
+        frame.setVisible(true);
+    }
+
+    private void addToTopPanel(JPanel topPanel, JButton completedTasksButton, JButton incompleteTasksButton) {
+        topPanel.add(completedTasksButton);
+        topPanel.add(incompleteTasksButton);
+    }
+
+    private void addToContentPane(JFrame frame, JPanel bottomPanel, JMenuBar menuBar, JScrollPane scrollPane) {
+        frame.getContentPane().add(BorderLayout.NORTH, menuBar);
+        frame.getContentPane().add(BorderLayout.CENTER, scrollPane);
+        frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+    }
+
+    private JMenuBar getJMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuFile = new JMenu("FILE");
+        menuBar.add(menuFile);
+        saveButton = new JMenuItem("Save");
+        loadButton = new JMenuItem("Load");
+        menuFile.add(saveButton);
+        menuFile.add(loadButton);
+        return menuBar;
+    }
+
+    private void addToBottomPanel(JPanel bottomPanel, JLabel label) {
+        bottomPanel.add(label);
+        bottomPanel.add(textField);
+        bottomPanel.add(addButton);
+        bottomPanel.add(completeButton);
+        bottomPanel.add(removeButton);
+    }
+
+    private void initTextField(AddListener addListener) {
+        textField = new JTextField(15);
+        textField.addActionListener(addListener);
+        textField.getDocument().addDocumentListener(addListener);
+    }
+
+    private AddListener initButtons() {
         saveButton.setActionCommand("save");
         saveButton.addActionListener(new SaveListener());
 
@@ -88,32 +129,7 @@ public class TodoListGUI  extends JPanel {
         RemoveListener removeListener = new RemoveListener();
         removeButton.setActionCommand(removeString);
         removeButton.addActionListener(removeListener);
-
-        textField = new JTextField(15);
-        textField.addActionListener(addListener);
-        textField.getDocument().addDocumentListener(addListener);
-
-        bottomPanel.add(label);
-        bottomPanel.add(textField);
-        bottomPanel.add(addButton);
-        bottomPanel.add(completeButton);
-        bottomPanel.add(removeButton);
-
-        JPanel topPanel = new JPanel();
-
-        JButton completedTasksButton = new JButton("Completed Tasks");
-        JButton incompleteTasksButton = new JButton("Incomplete Tasks");
-
-        topPanel.add(completedTasksButton);
-        topPanel.add(incompleteTasksButton);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        frame.getContentPane().add(BorderLayout.NORTH, menuBar);
-        frame.getContentPane().add(BorderLayout.CENTER, scrollPane);
-        frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
-
-        frame.setVisible(true);
+        return addListener;
     }
 
 
@@ -187,7 +203,6 @@ public class TodoListGUI  extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
             int row = table.getSelectedRow();
-            int col = table.getSelectedColumn();
 
             model.setValueAt("Complete", row, 1);
 
@@ -198,9 +213,7 @@ public class TodoListGUI  extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int row = table.getSelectedRow();
-
-            model.removeRow(row);
+            model.removeRow(table.getSelectedRow());
         }
     }
 
@@ -238,7 +251,10 @@ public class TodoListGUI  extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            jsonReader = new JsonReader(JSON_STORE);
+
+            model.setRowCount(0);
+
+            JsonReader jsonReader = new JsonReader(JSON_STORE);
             try {
                 todoList = jsonReader.read();
                 for (Task t : todoList.getAllTasks()) {

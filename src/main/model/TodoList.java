@@ -48,6 +48,10 @@ public class TodoList implements Writable {
         todoList.removeIf(task -> task.getID() == id);
     }
 
+    public void removeTask(String data) {
+        todoList.removeIf(task -> task.getLabel().equals(data));
+    }
+
     /*
      * EFFECTS: returns number of Tasks in todoList
      */

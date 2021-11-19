@@ -107,6 +107,7 @@ public class TodoListGUI  extends JPanel {
 
 
     /**
+     * MODIFIES: this
      * EFFECTS: Initializes contentPane by adding menuBar, scrollPane and bottomPanel to frame
      */
     private void initContentPane() {
@@ -226,10 +227,13 @@ public class TodoListGUI  extends JPanel {
      * Represents action to be taken when user wants to complete a todoList.
      */
     class CompleteListener implements ActionListener {
+        JPanel panel;
+        JLabel iconLabel;
+        ImageIcon icon;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ImageIcon icon = new ImageIcon("./Media/fireworks-well-done.gif");
+            icon = new ImageIcon("./Media/fireworks-well-done.gif");
 
             int row = table.getSelectedRow();
 
@@ -246,11 +250,23 @@ public class TodoListGUI  extends JPanel {
                 JOptionPane.showMessageDialog(frame, "Task is already completed.");
             } else {
                 model.setValueAt("Complete", row, 1);
-                JOptionPane.showMessageDialog(frame, null, "Congrats", JOptionPane.PLAIN_MESSAGE,icon);
+
+                JOptionPane.showMessageDialog(frame, centeredIcon(), "Task Completed", JOptionPane.PLAIN_MESSAGE);
             }
 
 
         }
+
+        // EFFECTS: returns a JPanel with the icon centered in it.
+        private JPanel centeredIcon() {
+            iconLabel = new JLabel(icon);
+            panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+            panel.add(iconLabel, BorderLayout.CENTER);
+            return panel;
+        }
+
+
     }
 
     /**

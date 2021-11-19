@@ -55,6 +55,7 @@ public class TodoListGUI  extends JPanel {
         table = new JTable();
         table.setModel(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionBackground(Color.decode("#50C878"));
 
         menuBar = getJMenuBar();
         bottomPanel = new JPanel();
@@ -100,9 +101,11 @@ public class TodoListGUI  extends JPanel {
      * Initializes the main frame for the program.
      */
     private void initFrame() {
-        frame = new JFrame("GET-IT-DONE");
+        ImageIcon frameIcon = new ImageIcon("./Media/g-logo.PNG");
+        frame = new JFrame("GET IT DONE");
         frame.setSize(575, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(frameIcon.getImage());
     }
 
 
@@ -112,9 +115,10 @@ public class TodoListGUI  extends JPanel {
      */
     private void initContentPane() {
 
-        frame.getContentPane().add(BorderLayout.NORTH, menuBar);
+
         frame.getContentPane().add(BorderLayout.CENTER, scrollPane);
         frame.getContentPane().add(BorderLayout.SOUTH, bottomPanel);
+        frame.getContentPane().add(BorderLayout.NORTH, menuBar);
     }
 
     /**
@@ -128,7 +132,10 @@ public class TodoListGUI  extends JPanel {
         loadButton = new JMenuItem("Load");
         menuFile.add(saveButton);
         menuFile.add(loadButton);
+        saveButton.setForeground(Color.decode("#50C878"));
+        loadButton.setForeground(Color.decode("#50C878"));
         return menuBar;
+
     }
 
     /**

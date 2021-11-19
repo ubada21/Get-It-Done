@@ -53,9 +53,7 @@ public class TodoListGUI  extends JPanel {
         Object[][] data = {};
         model = new MyTableModel(data, columnNames);
         table = new JTable();
-        table.setModel(model);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setSelectionBackground(Color.decode("#50C878"));
+        initTable();
 
         menuBar = getJMenuBar();
         bottomPanel = new JPanel();
@@ -80,6 +78,15 @@ public class TodoListGUI  extends JPanel {
         initContentPane();
 
         frame.setVisible(true);
+    }
+
+    /**
+     * EFFECTS: Create JTable using model.
+     */
+    private void initTable() {
+        table.setModel(model);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionBackground(Color.decode("#50C878"));
     }
 
     /**
@@ -246,15 +253,18 @@ public class TodoListGUI  extends JPanel {
 
             if (model.getRowCount() == 0) {
 
-                JOptionPane.showMessageDialog(frame, "No task to complete.");
+                JOptionPane.showMessageDialog(frame, "No task to complete.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
 
             } else if (row == -1) {
 
-                JOptionPane.showMessageDialog(frame, "No task selected.");
+                JOptionPane.showMessageDialog(frame, "No task selected.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
 
 
             } else if ((table.getValueAt(row, 1)).equals("Complete")) {
-                JOptionPane.showMessageDialog(frame, "Task is already completed.");
+                JOptionPane.showMessageDialog(frame, "Task is already completed.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 model.setValueAt("Complete", row, 1);
 
@@ -284,10 +294,14 @@ public class TodoListGUI  extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             int row = table.getSelectedRow();
+
             if (model.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(frame, "No tasks to remove.");
+                JOptionPane.showMessageDialog(frame, "No tasks to remove.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+
             } else if (row == -1) {
-                JOptionPane.showMessageDialog(frame, "No task selected.");
+                JOptionPane.showMessageDialog(frame, "No task selected.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
 
             } else {
                 model.removeRow(row);
@@ -322,7 +336,8 @@ public class TodoListGUI  extends JPanel {
                 JOptionPane.showMessageDialog(frame, "Saved TodoList to " + JSON_STORE);
             } catch (FileNotFoundException f) {
                 System.out.println();
-                JOptionPane.showMessageDialog(frame, "Unable to write to file " + JSON_STORE);
+                JOptionPane.showMessageDialog(frame, "Unable to write to file " + JSON_STORE,
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
 
@@ -357,7 +372,8 @@ public class TodoListGUI  extends JPanel {
                 }
                 JOptionPane.showMessageDialog(frame, "Loaded Todolist from " + JSON_STORE);
             } catch (IOException f) {
-                JOptionPane.showMessageDialog(frame, "Unable to read from file: " + JSON_STORE);
+                JOptionPane.showMessageDialog(frame, "Unable to read from file: " + JSON_STORE,
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

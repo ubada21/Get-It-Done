@@ -42,7 +42,7 @@ public class TodoList implements Writable {
     /*
      * REQUIRES: Task with given ID exists in TodoList
      * MODIFIES: this
-     * EFFECTS: Removes the given task from todoList
+     * EFFECTS: given task id, Removes task from todoList
      */
     public void removeTask(int id) {
 
@@ -50,6 +50,11 @@ public class TodoList implements Writable {
         todoList.removeIf(task -> task.getID() == id);
     }
 
+    /*
+     * REQUIRES: Task with given label exists in TodoList
+     * MODIFIES: this
+     * EFFECTS: given task label, Removes task from todoList
+     */
     public void removeTask(String string) {
         int id = this.labelToID(string);
         this.removeTask(id);
@@ -87,7 +92,7 @@ public class TodoList implements Writable {
     /*
      * REQUIRES: The task being marked as complete is in the TodoList and it is not already completed
      * MODIFIES: this
-     * EFFECTS: marks the task as complete
+     * EFFECTS: given the task id, marks the task as complete
      */
     public void completeTask(int id) {
         for (Task task : todoList) {
@@ -98,6 +103,11 @@ public class TodoList implements Writable {
         }
     }
 
+    /*
+     * REQUIRES: The task being marked as complete is in the TodoList and it is not already completed
+     * MODIFIES: this
+     * EFFECTS: given the task label, marks the task as complete
+     */
     public void completeTask(String string) {
         for (Task task : todoList) {
             if (task.getLabel().equals(string)) {
@@ -170,6 +180,7 @@ public class TodoList implements Writable {
         return jsonArray;
     }
 
+    //EFFECTS: given a string, return corresponding ID of task, else return -1.
     public int labelToID(String string) {
         for (Task t : todoList) {
             if (t.getLabel().equals(string)) {

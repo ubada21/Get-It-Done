@@ -162,6 +162,23 @@ class TodoListTest {
     }
 
     @Test
+    void testCompletedManyString() {
+        for (int i = 1; i <= MAX_SIZE; i++) {
+            Task task = new Task("hello", i);
+            todoList.addTask(task);
+        }
+
+        for (Task t : todoList.todoList) {
+            todoList.completeTask(t.getLabel());
+        }
+
+        assertEquals(MAX_SIZE, todoList.getNumberOfCompletedTasks());
+        assertEquals(0, todoList.getNumberOfInCompleteTasks());
+
+    }
+
+
+    @Test
     void testNumberCompletedAll() {
         for (int i = 1; i <= MAX_SIZE/2; i++) {
             Task task = new Task("hello", i);
@@ -183,5 +200,12 @@ class TodoListTest {
 
     }
 
+    @Test
+    void testLabelToString() {
+        Task t = new Task("hello", 4);
+        todoList.addTask(t);
+        assertEquals(4, todoList.labelToID("hello"));
+        assertEquals(-1, todoList.labelToID("hi"));
+    }
 
 }

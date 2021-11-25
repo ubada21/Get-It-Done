@@ -29,6 +29,7 @@ public class TodoList implements Writable {
         if (!(this.containsTask(task))) {
 
             if (this.getSize() < MAX_SIZE) {
+                EventLog.getInstance().logEvent(new Event("Task has been added to the TodoList"));
                 todoList.add(task);
                 return true;
             }
@@ -45,7 +46,14 @@ public class TodoList implements Writable {
      */
     public void removeTask(int id) {
 
+        EventLog.getInstance().logEvent(new Event("Task has been removed from the TodoList"));
         todoList.removeIf(task -> task.getID() == id);
+    }
+
+    public void removeTask(String string) {
+        int id = this.labelToID(string);
+        this.removeTask(id);
+
     }
 
     /*
@@ -85,6 +93,16 @@ public class TodoList implements Writable {
         for (Task task : todoList) {
             if (task.getID() == id) {
                 task.complete();
+                EventLog.getInstance().logEvent(new Event("Task has been completed"));
+            }
+        }
+    }
+
+    public void completeTask(String string) {
+        for (Task task : todoList) {
+            if (task.getLabel().equals(string)) {
+                task.complete();
+                EventLog.getInstance().logEvent(new Event("Task has been completed"));
             }
         }
     }
@@ -150,6 +168,15 @@ public class TodoList implements Writable {
         }
 
         return jsonArray;
+    }
+
+    public int labelToID(String string) {
+        for (Task t : todoList) {
+            if (t.getLabel().equals(string)) {
+                return t.getID();
+            }
+        }
+        return -1;
     }
 
 }

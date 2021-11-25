@@ -25,3 +25,39 @@ This project is important to me because I am not great at managing my time. I wa
 - As a user, I want to be able to see all my incomplete tasks.
 - As a user, I want to be able to save my todo list to a file.
 - As a user, I want to be able to load my todo list from a save file.
+
+
+### Phase 4: Task 2
+Initially, when the program runs, the EventLog is empty, because we do not add, remove or complete any tasks,
+
+But if we run a demo of adding, removing and completing tasks, the EventLog output looks like this:
+
+
+Wed Nov 24 22:56:19 PST 2021
+
+Task has been added to the TodoList
+
+Wed Nov 24 22:56:20 PST 2021
+
+Task has been added to the TodoList
+
+Wed Nov 24 22:56:21 PST 2021
+
+Task has been added to the TodoList
+
+Wed Nov 24 22:56:23 PST 2021
+
+Task has been completed
+
+Wed Nov 24 22:56:26 PST 2021
+
+Task has been added to the TodoList
+
+Wed Nov 24 22:56:30 PST 2021
+
+Task has been removed from the TodoList
+
+Wed Nov 24 22:56:34 PST 2021
+
+Task has been completed
+

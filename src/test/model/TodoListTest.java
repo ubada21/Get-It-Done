@@ -85,6 +85,23 @@ class TodoListTest {
     }
 
     @Test
+    void testRemoveAllString() {
+        Task task1 = new Task("hello", 1);
+        Task task2 = new Task("hi", 2);
+
+        todoList.addTask(task1);
+        todoList.addTask(task2);
+
+        todoList.removeTask("hello");
+
+        assertEquals(1, todoList.getSize());
+
+        todoList.removeTask("hi");
+
+        assertEquals(0, todoList.getSize());
+    }
+
+    @Test
     void removeSome() {
 
         for (int i = 1; i <= MAX_SIZE; i++) {
@@ -94,6 +111,22 @@ class TodoListTest {
 
         for (int i = 1; i <= MAX_SIZE/2; i++) {
             todoList.removeTask(i);
+        }
+
+        assertEquals(MAX_SIZE/2, todoList.getSize());
+        assertEquals(MAX_SIZE/2, todoList.getAllTasks().size());
+    }
+
+    @Test
+    void removeSomeString() {
+
+        for (int i = 1; i <= MAX_SIZE; i++) {
+            Task task = new Task("hello", i);
+            todoList.addTask(task);
+        }
+
+        for (int i = 1; i <= MAX_SIZE/2; i++) {
+            todoList.removeTask("hello");
         }
 
         assertEquals(MAX_SIZE/2, todoList.getSize());

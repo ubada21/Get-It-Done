@@ -1,9 +1,11 @@
 package ui;
 
+import model.EventLog;
 import model.Task;
 import model.TodoList;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import model.Event;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -12,15 +14,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.DataOutput;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
  * Represents the Graphical User Interface for the todoList.
  */
-public class TodoListGUI  extends JPanel {
-
+public class TodoListGUI extends JPanel {
 
 
     private JTable table;
@@ -41,11 +47,17 @@ public class TodoListGUI  extends JPanel {
     private JScrollPane scrollPane;
     private JMenuBar menuBar;
     private JPanel bottomPanel;
+    private int taskNumber;
+    private TodoList todoList;
+    private Task task;
+    private WindowEvent windowEvent;
+    private static java.util.List<String> desc;
 
     /**
      * EFFECTS: Instantiates the GUI and puts everything on the main ContentPane
      */
     public TodoListGUI() {
+        initTodoList();
 
         initFrame();
 
@@ -78,6 +90,15 @@ public class TodoListGUI  extends JPanel {
         initContentPane();
 
         frame.setVisible(true);
+
+    }
+
+    /**
+     * EFFECTS: initializes a todoList, and initializes the first taskNumber to 1
+     */
+    private void initTodoList() {
+        taskNumber = 1;
+        todoList = new TodoList();
     }
 
     /**
@@ -111,8 +132,14 @@ public class TodoListGUI  extends JPanel {
         ImageIcon frameIcon = new ImageIcon("./Media/g-logo.PNG");
         frame = new JFrame("GET IT DONE");
         frame.setSize(575, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(frameIcon.getImage());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog(EventLog.getInstance());
+            }
+        });
     }
 
 
@@ -159,6 +186,7 @@ public class TodoListGUI  extends JPanel {
 
     /**
      * EFFECTS: initializes the textField
+     *
      * @param addListener handles what happens to textField after task is added.
      */
     private void initTextField(AddListener addListener) {
@@ -183,13 +211,18 @@ public class TodoListGUI  extends JPanel {
         public void actionPerformed(ActionEvent e) {
             String data = textField.getText();
 
+
             if (data.equals("")) {
                 textField.requestFocusInWindow();
                 textField.selectAll();
                 return;
             }
 
-            model.addRow(new Object[]{data, "Incomplete"});
+            task = new Task(data, taskNumber);
+            todoList.addTask(task);
+            taskNumber++;
+
+            model.addRow(new Object[]{data, task.getStatus()});
 
 
             textField.requestFocusInWindow();
@@ -267,7 +300,7 @@ public class TodoListGUI  extends JPanel {
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 model.setValueAt("Complete", row, 1);
-
+                todoList.completeTask(table.getValueAt(row, 0).toString());
                 JOptionPane.showMessageDialog(frame, centeredIcon(), "Task Completed", JOptionPane.PLAIN_MESSAGE);
             }
 
@@ -304,7 +337,9 @@ public class TodoListGUI  extends JPanel {
                         "ERROR", JOptionPane.ERROR_MESSAGE);
 
             } else {
+                todoList.removeTask(table.getValueAt(row, 0).toString());
                 model.removeRow(row);
+
             }
 
         }
@@ -314,20 +349,13 @@ public class TodoListGUI  extends JPanel {
      * Represents action to be taken when user wants to save todoList.
      */
     class SaveListener implements ActionListener {
-        TodoList todoList;
+        //TodoList todoList;
         JsonWriter jsonWriter;
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            todoList = new TodoList();
             jsonWriter = new JsonWriter(JSON_STORE);
-            for (int i = 0; i < table.getRowCount(); i++) {
-                Task task = new Task(table.getValueAt(i, 0).toString(), i,
-                        getBool(table.getValueAt(i, 1).toString()));
-                todoList.addTask(task);
-            }
 
             try {
                 jsonWriter.open();
@@ -352,12 +380,11 @@ public class TodoListGUI  extends JPanel {
 
     }
 
+
     /**
      * Represents action to be taken when user wants to load a saved todoList.
      */
     class LoadListener implements ActionListener {
-        TodoList todoList;
-
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -371,10 +398,17 @@ public class TodoListGUI  extends JPanel {
                     model.addRow(new Object[]{t.getLabel(), t.getStatus()});
                 }
                 JOptionPane.showMessageDialog(frame, "Loaded Todolist from " + JSON_STORE);
+                taskNumber = todoList.getSize() + 1;
             } catch (IOException f) {
                 JOptionPane.showMessageDialog(frame, "Unable to read from file: " + JSON_STORE,
                         "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    public static void printLog(EventLog el) {
+        for (Event e : el) {
+            System.out.println(e.toString());
         }
     }
 
@@ -394,7 +428,6 @@ public class TodoListGUI  extends JPanel {
             return false;
         }
     }
-
 
 
 }

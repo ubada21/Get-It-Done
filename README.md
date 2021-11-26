@@ -66,5 +66,6 @@ Task has been completed
 If I had more time, i would definitely refactor some of my code.
 
 I feel like I could've seperated the TodoListGUI class into several more subclasses, one for each ActionListener
+
 My project is pretty simple in its core, so more refactoring wouldn't really be necessary.
 

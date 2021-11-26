@@ -61,3 +61,10 @@ Wed Nov 24 22:56:34 PST 2021
 
 Task has been completed
 
+### Phase 4: Task 2
+
+If I had more time, i would definitely refactor some of my code.
+
+I feel like I could've seperated the TodoListGUI class into several more subclasses, one for each ActionListener
+My project is pretty simple in its core, so more refactoring wouldn't really be necessary.
+

@@ -131,7 +131,7 @@ public class TodoListGUI extends JPanel {
     private void initFrame() {
         ImageIcon frameIcon = new ImageIcon("./Media/g-logo.PNG");
         frame = new JFrame("GET IT DONE");
-        frame.setSize(575, 500);
+        frame.setSize(650, 500);
         frame.setIconImage(frameIcon.getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new java.awt.event.WindowAdapter() {

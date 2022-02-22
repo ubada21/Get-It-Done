@@ -13,5 +13,5 @@ This application allows users to:
 
 This program was made using Swing as the GUI. It implements a very simple, easy to use interface that is very straightforward.
 Persistence is implemented using JSON in Java library. It enables the user to save a Todo List and load it from a file.
-Upon task completion, the user is presented with a congratulations message. 
+Upon task completion, the user is presented with a congratulation  message. 
 
